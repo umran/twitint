@@ -1,6 +1,6 @@
 const expect = require('chai').expect
 const Listener = require('../src/listener')
-const Twitter = require('./MockClient')
+const Twitter = require('./mockClient')
 
 const endpoint = 'statuses/filter'
 
