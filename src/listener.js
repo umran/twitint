@@ -19,12 +19,12 @@ class Listener extends EventEmitter {
     })
 
     this._listeners[this._instance].on('data', async tweet => {
-      this.emit('consuming', `received new tweet with id: ${tweet.id ? tweet.id : 'undefined'}`)
+      this.emit('consuming', `received new tweet with id: ${tweet.id}`)
 
       try {
         await operation(tweet)
       } catch (err) {
-        this.emit('warning', `failed to process tweet with id: ${tweet.id ? tweet.id : 'undefined'}`)
+        this.emit('warning', `failed to process tweet with id: ${tweet.id}`)
       }
     })
 

@@ -1,10 +1,18 @@
 const EventEmitter = require('events')
 
 class MockStream extends EventEmitter {
-  constructor(endpoint, filter, faulty = false) {
+  constructor(endpoint, filter, faulty, failImmediately) {
     super()
     this._endpoint = endpoint
     this._filter = filter
+
+    if (failImmediately) {
+      setTimeout(() => {
+        this.emit('error', new Error('mock twitter error!!'))
+      }, 100)
+
+      return
+    }
 
     setTimeout(() => {
       this.emit('start', 'started!!')
@@ -41,8 +49,10 @@ class MockClient {
   }
 
   stream(endpoint, filter) {
-    let faulty = this._config.isFaultyClient ? true : false
-    return new MockStream(endpoint, filter, faulty)
+    let faulty = this._config.isFaulty ? true : false
+    let immediatelyFaulty = this._config.isImmediatelyFaulty ? true : false
+
+    return new MockStream(endpoint, filter, faulty, immediatelyFaulty)
   }
 }
 

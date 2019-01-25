@@ -31,7 +31,25 @@ const client_secondary = new Twitter({
 })
 
 const client_faulty = new Twitter({
-  isFaultyClient: true,
+  isFaulty: true,
+  consumer_key: 'consumer_key',
+  consumer_secret: 'consumer_secret',
+  access_token_key: 'access_token_key',
+  access_token_secret: 'access_token_secret'
+})
+
+const client_immediately_faulty_primary = new Twitter({
+  isFaulty: true,
+  isImmediatelyFaulty: true,
+  consumer_key: 'consumer_key',
+  consumer_secret: 'consumer_secret',
+  access_token_key: 'access_token_key',
+  access_token_secret: 'access_token_secret'
+})
+
+const client_immediately_faulty_secondary = new Twitter({
+  isFaulty: true,
+  isImmediatelyFaulty: true,
   consumer_key: 'consumer_key',
   consumer_secret: 'consumer_secret',
   access_token_key: 'access_token_key',
@@ -174,6 +192,28 @@ describe('.retry()', function() {
     listener.on('listening', message => {
       connection_count += 1
       if (warning_count === 1 && connection_count === 2) {
+        listener.terminate()
+        done()
+      }
+    })
+  })
+
+  it('should emit an error event and quit retrying once the maximum allowed retry attempts without a successful connection is reached', function(done) {
+    this.timeout(10000)
+
+    let listener = new Listener([client_immediately_faulty_primary, client_immediately_faulty_secondary])
+    listener.stream(endpoint, { follow }, tweet => {
+      return
+    })
+
+    let retry_count = 0
+
+    listener.on('retrying', message => {
+      retry_count += 1
+    })
+
+    listener.on('error', message => {
+      if (retry_count === 10) {
         listener.terminate()
         done()
       }
