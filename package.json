@@ -1,6 +1,6 @@
 {
   "name": "twitint",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A fault tolerant app that listens to filtered tweets via the twitter streaming api and processes them according to a custom lambda function. The lambda function may be synchronous or asynchronous.",
   "main": "index.js",
   "directories": {
