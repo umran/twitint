@@ -38,10 +38,15 @@ const client_secondary = new Client({
 // instantiate a new Listener using 2 clients with the secondary client acting as a fallback
 const listener = new Listener([client_primary, client_secondary])
 
-// sarting a stream of tweets filtered by tracking terms
+// starting a stream of tweets filtered by tracking terms
 listener.stream('statuses/filter', { track: 'javascript, nodejs, maldives, twitter, and, so, on' }, tweet => {
   // do stuff with tweets as they come
   console.log(tweet.id)
+})
+
+// the app emits a listening event when the active client has started streaming
+listener.on('listening', message => {
+  console.log(message)
 })
 
 // the app emits an error only when all reconnect attempts have failed, thereby suspending all listeners
