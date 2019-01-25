@@ -1,0 +1,41 @@
+{
+  "name": "twitint",
+  "version": "1.0.0",
+  "description": "a fault tolerant app that listens to filtered tweets via the twitter streaming api and processes them according to a custom lambda function. The lambda function may be synchronous or asynchronous.",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha",
+    "cover": "istanbul cover _mocha",
+    "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/umran/twitterobservatory.git"
+  },
+  "keywords": [
+    "twitter",
+    "streaming",
+    "api",
+    "mvtwitter",
+    "observatory"
+  ],
+  "author": "Ahmed Umran Hussain",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/umran/twitterobservatory/issues"
+  },
+  "homepage": "https://github.com/umran/twitterobservatory#readme",
+  "dependencies": {
+    "twitter-lite": "^0.9.1"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "coveralls": "^3.0.2",
+    "istanbul": "^1.1.0-alpha.1",
+    "mocha": "^5.2.0",
+    "mocha-lcov-reporter": "^1.3.0"
+  }
+}
